@@ -32,3 +32,20 @@ def povecaj_sliko(slika: np.ndarray) -> np.ndarray:
     return nova_slika
 
 def zmanjsaj_sliko(slika: np.ndarray) -> np.ndarray: 
+    # pridobimo visino, sirino originalne slike
+    visina, sirina = slika.shape[:2]
+
+    y = 1 if visina % 2 != 0 else 0
+    x = 1 if sirina % 2 != 0 else 0
+
+    obrezana_slika = slika[y:, x:]
+
+    # izracunamo pov za vsako obmocje - sestejemo vse 4 polozaje in delimo z 4 
+    nova_slika = (
+        obrezana_slika[0::2, 0::2] + # zgornji levi kot
+        obrezana_slika[1::2, 0::2] + # spodnji levi kot
+        obrezana_slika[0::2, 1::2] + # zgornji desni kot 
+        obrezana_slika[1::2, 1::2] # spodnji desni kot 
+    ) /4
+    
+    return nova_slika
