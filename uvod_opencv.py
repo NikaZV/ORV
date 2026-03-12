@@ -57,3 +57,5 @@ def prestej_piksle_z_barvo(slika: np.ndarray, spodnja_meja: tuple[int, int, int]
 
     stevilo_pikslov = cv.countNonZero(maska)
     return stevilo_pikslov
+
+def zrcali_sliko_vertikalno(slika: np.ndarray, ROI: str) -> np.ndarray:
