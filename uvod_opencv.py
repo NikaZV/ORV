@@ -51,3 +51,9 @@ def zmanjsaj_sliko(slika: np.ndarray) -> np.ndarray:
     return nova_slika
 
 def prestej_piksle_z_barvo(slika: np.ndarray, spodnja_meja: tuple[int, int, int], zgornje_meja: tuple[int, int, int]) -> int:
+    # naredimo masko -> true: znotraj meje, false: zunaj meje
+    # inRnage: matrika z piksli v obmocju
+    maska = cv.inRange(slika, spodnja_meja, zgornje_meja)
+
+    stevilo_pikslov = cv.countNonZero(maska)
+    return stevilo_pikslov
