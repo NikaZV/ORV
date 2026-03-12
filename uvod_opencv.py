@@ -49,3 +49,5 @@ def zmanjsaj_sliko(slika: np.ndarray) -> np.ndarray:
     ) /4
     
     return nova_slika
+
+def prestej_piksle_z_barvo(slika: np.ndarray, spodnja_meja: tuple[int, int, int], zgornje_meja: tuple[int, int, int]) -> int:
