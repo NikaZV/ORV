@@ -30,3 +30,5 @@ def povecaj_sliko(slika: np.ndarray) -> np.ndarray:
     nova_slika[1::2, 1::2] = slika # spodnji desni kot 
 
     return nova_slika
+
+def zmanjsaj_sliko(slika: np.ndarray) -> np.ndarray: 
