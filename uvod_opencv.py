@@ -59,3 +59,18 @@ def prestej_piksle_z_barvo(slika: np.ndarray, spodnja_meja: tuple[int, int, int]
     return stevilo_pikslov
 
 def zrcali_sliko_vertikalno(slika: np.ndarray, ROI: str) -> np.ndarray:
+    visina, sirina = slika.shape[:2]
+
+    sredina_visine = visina // 2 #// celostevilsko deljenje
+    sredina_sirine = sirina // 2
+
+    if ROI == "ZL": 
+        #zgoraj od 0 do sredine visine in levo od 0 so sredine sirine
+        rezultat[0:sredina_visine, 0:sredina_sirine] = rezultat[0:sredina_visine, 0:sredina_sirine][:, ::-1]
+    elif ROI == "ZD": 
+        rezultat[0:sredina_visine, sredina_sirine] = rezultat[0:sredina_visine, sredina_sirine][:, ::-1]
+    elif ROI == "SL": 
+        rezultat[sredina_visine, 0:sredina_sirine] = rezultat[sredina_visine, 0:sredina_sirine][:, ::-1]
+    elif ROI == "SD": 
+        rezultat[sredina_visine, sredina_sirine] = rezultat[sredina_visine, sredina_sirine][:, ::-1]
+    return rezultat
