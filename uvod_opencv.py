@@ -73,4 +73,4 @@ def zrcali_sliko_vertikalno(slika: np.ndarray, ROI: str) -> np.ndarray:
         rezultat[sredina_visine, 0:sredina_sirine] = rezultat[sredina_visine, 0:sredina_sirine][:, ::-1]
     elif ROI == "SD": 
         rezultat[sredina_visine, sredina_sirine] = rezultat[sredina_visine, sredina_sirine][:, ::-1]
-    return rezultat
+    return rezultat 
