@@ -51,11 +51,14 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           
       - name: Gradnja in potisk slike
-        env:
-          DOCKER_API_VERSION: "1.43"
-          DOCKER_BUILDKIT: "0"
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/29934-projekt:latest .
+          # 1. Prisilno onemogočimo Buildx za celotno sejo
+          export DOCKER_BUILDX=off
+          export DOCKER_BUILDKIT=0
+          
+          # 2. Gradnja z uporabo klasičnega motorja
+          docker build --no-cache -t ${{ secrets.DOCKERHUB_USERNAME }}/29934-projekt:latest .
+          
+          # 3. Potisk na DockerHub
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/29934-projekt:latest
-
           
