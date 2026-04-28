@@ -48,12 +48,9 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           
-      - name: Gradnja in potisk na DockerHub
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/29934-projekt:latest
-
+      - name: Gradnja in potisk slike
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/29934-projekt:latest .
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/29934-projekt:latest
 
           
