@@ -33,6 +33,8 @@ jobs:
           if [ -s napaka.txt ]; then
             echo "Najdena napaka v artefaktu"
             exit 1
+          else
+            eco "Artefakt je prazen"
           fi
       
       - name: Prijava v DockerHub
