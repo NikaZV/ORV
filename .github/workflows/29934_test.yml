@@ -8,9 +8,11 @@ jobs:
     steps: 
       - name: Checkout code
         uses: actions/checkout@v4
+        
       - name: Preveri obstoj testnih datotek
+        # preusmerimo samo napake v datoteko ce vse dela je datoteka prazna
         run: |
-          ls tests/ > napaka.txt 2>&1 || echo "Nakapa: Testne skripte ne obstajajo" >> napaka.txt
+          ls tests/ > /dev/null 2> napaka.txt || true 
           cat napaka.txt 
       
       - name: Shranjevanje asrtefakta
@@ -36,12 +38,17 @@ jobs:
       - name: Preveri vsebino datoteke napaka.txt
         run: | 
           if [ -s napaka.txt ]; then 
-            if grep -q "Napaka" napaka.txt || grep -q "ls: " napaka.txt; then
-              echo "V prvem poslu je bila zaznana napaka"
-              exit 1
-              fi
+            echo "V prvem poslu je bila zaznana napaka: "
+            cat napaka.txt
+            exit 1
           fi
-      - name: Nastavitev okolja in zagon testov 
+          
+      - name: Nastavitev Mode.js okolja 
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          
+      - name: Namestitev odvisnosti in zagon testov
         run: |
           echo "Izvajanje testov na verziji ${{matrix.node-version}}"
           echo "Testi uspesno opravljeni"
