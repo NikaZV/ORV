@@ -35,7 +35,7 @@ jobs:
       - name: Gradnja in potisk na DockerHub
         uses: docker/build-push-action@v5
         with:
-          context: 
+          context: .
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/29934-projekt:latest
 
