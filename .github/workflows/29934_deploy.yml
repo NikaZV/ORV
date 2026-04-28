@@ -6,6 +6,11 @@ on:
     workflows: ["29934_test"]
     types: [completed]
 
+permissions:
+  actions: read
+  contents: read
+  packages: write
+  
 jobs:
   build_and_push:
     # skripta se zazene samo ce se je tset uspesno zakljucil
