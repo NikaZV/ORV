@@ -51,6 +51,9 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           
       - name: Gradnja in potisk slike
+        env:
+          DOCKER_API_VERSION: "1.43"
+          DOCKER_BUILDKIT: "0"
         run: |
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/29934-projekt:latest .
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/29934-projekt:latest
