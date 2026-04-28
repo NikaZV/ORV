@@ -1,0 +1,24 @@
+name: CD Deploy na DockerHub
+
+on:
+  workflow_run:
+    workflows: ["CI Testiranje"]
+    types:
+      - completed
+
+jobs:
+  build_and_push:
+    # Zažene se le, če je bil prejšnji workflow uspešen
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prijava v DockerHub
+        # Uporabi secret-e, ki jih nastaviš v GitHub Settings
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Build in Push Docker slike
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/moj-projekt:latest .
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/moj-projekt:latest
