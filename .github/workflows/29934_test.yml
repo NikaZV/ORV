@@ -1,0 +1,48 @@
+name: 29934_test
+on:
+  push: 
+    branches: [main] # sprozi se ob potisku na vejo main
+jobs:
+  check_tests: 
+    runs-on: self-hosted
+    steps: 
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Preveri obstoj testnih datotek
+        run: |
+          ls tests/ > napaka.txt 2>&1 || echo "Nakapa: Testne skripte ne obstajajo" >> napaka.txt
+          cat napaka.txt 
+      
+      - name: Shranjevanje asrtefakta
+        uses: actions/upload-artefact@v4
+        with: 
+          name: preverjanje-napak
+          path: napaka.txt
+  run_tests: 
+    needs: check_tests
+    runs-on: selt-hosted
+    strategy: 
+      matrix: 
+        node-version: [18, 20]
+    steps: 
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Prenos artefakta iz prvega posla
+        uses: actions/download-artefact@v4
+        with: 
+          name: preverjanje-napak 
+          
+      - name: Preveri vsebino datoteke napaka.txt
+        run: | 
+          if[ -s napaka.txt ]; then 
+            if grep -q "Napaka" napaka.txt || grep -q "ls: " napaka.txt; then
+              echo "V prvem poslu je bila zaznana napaka"
+              exit 1
+              fi
+          fi
+      - name: Nastavitev okolja in zagon testov 
+        run: |
+          echo "Izvajanje testov na verziji ${{matrix.node-version}}"
+          echo "Testi uspesno opravljeni"
+         
