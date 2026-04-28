@@ -34,7 +34,7 @@ jobs:
             echo "Najdena napaka v artefaktu"
             exit 1
           else
-            eco "Artefakt je prazen"
+            echo "Artefakt je prazen"
           fi
       
       - name: Prijava v DockerHub
