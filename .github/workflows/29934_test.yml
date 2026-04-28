@@ -20,7 +20,7 @@ jobs:
           path: napaka.txt
   run_tests: 
     needs: check_tests
-    runs-on: selt-hosted
+    runs-on: self-hosted
     strategy: 
       matrix: 
         node-version: [18, 20]
@@ -35,7 +35,7 @@ jobs:
           
       - name: Preveri vsebino datoteke napaka.txt
         run: | 
-          if[ -s napaka.txt ]; then 
+          if [ -s napaka.txt ]; then 
             if grep -q "Napaka" napaka.txt || grep -q "ls: " napaka.txt; then
               echo "V prvem poslu je bila zaznana napaka"
               exit 1
