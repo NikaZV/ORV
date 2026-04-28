@@ -27,12 +27,14 @@ jobs:
           name: preverjanje-napak
           run-id: ${{ github.event.workflow_run.id }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          path: .
+          path: temp_artifact
       
       - name: Kontrola napak
         run: | 
-          if [ ! -f napaka.txt ]; then
+          FILE=temp_artifact/napaka.txt
+          if [ ! -f "$FILE" ]; then
             echo "Atrefakt napaka.txt ne obstaja"
+            cat "$FILE"
             exit 1
           fi
           if [ -s napaka.txt ]; then
