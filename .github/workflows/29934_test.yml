@@ -12,7 +12,7 @@ jobs:
       - name: Preveri obstoj testnih datotek
         # preusmerimo samo napake v datoteko ce vse dela je datoteka prazna
         run: |
-          ls tests/ > /dev/null 2> napaka.txt || true 
+          ls tests/ > /dev/null 2> napaka.txt || true
           cat napaka.txt 
       
       - name: Shranjevanje asrtefakta
