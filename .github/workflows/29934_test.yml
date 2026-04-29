@@ -3,11 +3,12 @@ on:
   push: 
     branches: [main] # sprozi se ob potisku na vejo main
 jobs:
+  # prvi posel
   check_tests: 
-    runs-on: self-hosted
+    runs-on: self-hosted #tece na lokalnem action-runner
     steps: 
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4 #prenost izvorne kode iz repozitorija na runner
         
       - name: Preveri obstoj testnih datotek
         # preusmerimo samo napake v datoteko ce vse dela je datoteka prazna
@@ -20,12 +21,13 @@ jobs:
         with: 
           name: preverjanje-napak
           path: napaka.txt
+  # drugi posel
   run_tests: 
     needs: check_tests
     runs-on: self-hosted
     strategy: 
       matrix: 
-        node-version: [18, 20]
+        python-version: ["3.9", "3.10", "3.11"] # matrix: omogoca testiranje app v razlicnih okoljih hkrati
     steps: 
       - name: Checkout code
         uses: actions/checkout@v4
@@ -36,6 +38,7 @@ jobs:
           name: preverjanje-napak 
           
       - name: Preveri vsebino datoteke napaka.txt
+        # -s ce datoteka ni prazna pomeni da se v prvem poslu pojavi napaka
         run: | 
           if [ -s napaka.txt ]; then 
             echo "V prvem poslu je bila zaznana napaka: "
@@ -46,10 +49,11 @@ jobs:
       - name: Nastavitev Mode.js okolja 
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          python-version: ${{ matrix.python-version }} # dinamicna izbira verzije iz veje 
           
       - name: Namestitev odvisnosti in zagon testov
+      # izvajanje testov 
         run: |
-          echo "Izvajanje testov na verziji ${{matrix.node-version}}"
+          echo "Izvajanje testov na verziji ${{ matrix.python-version }}"
           echo "Testi uspesno opravljeni"
          
