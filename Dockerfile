@@ -1,4 +1,4 @@
 FROM python:3.9-slim
 WORKDIR /app
 COPY . .
-CMD ["python", "test/test.py"]
+CMD ["python", "tests/test.py"]
